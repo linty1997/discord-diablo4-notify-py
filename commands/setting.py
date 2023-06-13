@@ -11,37 +11,35 @@ class Setting(commands.Cog):
         self.bot = bot
 
     # setting notify channel
-    @slash_command(description="Get bot ping.")
+    @slash_command(description="Setting notify channel.")
     async def set_notify_channel(self, ctx, channel: discord.TextChannel):
         res = await SettingController(ctx).set(channel)
         await ctx.respond(f"`Done.`", delete_after=5, ephemeral=True)
 
+    # get notify channel
+    @slash_command(description="Get your setting notify channel.")
+    async def get_notify_channel(self, ctx):
+        channel = await SettingController(ctx).get_channel()
+        msg = f"`Channel:` <#{channel}>" if channel else f"`Channel:` None"
+        await ctx.respond(msg, delete_after=5, ephemeral=True)
+
     # del notify channel
-    @slash_command(description="Get bot ping.")
+    @slash_command(description="Del notify channel.")
     async def del_notify_setting(self, ctx):
         res = await SettingController(ctx).delete()
         await ctx.respond(f"`Done.`", delete_after=5, ephemeral=True)
 
-    # get report logs
-    @slash_command(description="Get bot ping.")
-    async def get_report_logs(self, ctx,
-                              time_zone: Option(int, requests=True, description="Time zone."),
-                              event: Option(str, required=True, default="word_boss",
-                                            description="Event.",
-                                            choices=[
-                                                OptionChoice("WordBoss", "word_boss"),
-                                            ]),
-                              ):
-        res = await WordBossController(ctx).get_report_logs(event, time_zone)
-        description = "User Id: Report Time\n\n"
-        for k in res.keys():
-            description += f"{k}: {res[k]}\n"
-        embed = discord.Embed(title="Show only the first thirty", description=description, colour=0x00b0f4)
-        embed.set_author(name="report users",
-                         icon_url="https://media.discordapp.net/attachments/810844791428087828/1115248016694202378/256x256.png")
-        embed.set_footer(text="Any questions please contact: 小白#0001",
-                         icon_url="https://cdn.discordapp.com/attachments/1090779637463908432/1115249839467409499/discord_1.gif")
-        await ctx.respond(embed=embed, ephemeral=True)
+    # setting line notify
+    @slash_command(description="Setting line notify token.")
+    async def set_line_notify(self, ctx, token: str):
+        res = await SettingController(ctx).set_line_user_setting(ctx.user.id, token)
+        await ctx.respond(f"`Done.`", delete_after=5, ephemeral=True)
+
+    # del line notify
+    @slash_command(description="Del line notify setting.")
+    async def del_line_notify(self, ctx):
+        res = await SettingController(ctx).delete_line_user_setting(ctx.user.id)
+        await ctx.respond(f"`Done.`", delete_after=5, ephemeral=True)
 
 
 def setup(bot):

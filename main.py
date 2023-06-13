@@ -1,14 +1,15 @@
 from discord.ext import commands
 import discord
 from dotenv import load_dotenv
+from cog.tasks import MyTasks
 import os
 
 load_dotenv()
 
 ##############################
 
-token = os.getenv('TOKEN')
-bot = discord.Bot(debug_guilds=[int(713282267719532615)])
+token = os.getenv('TEST_TOKEN')
+bot = discord.Bot()
 
 
 for filename in os.listdir('./commands'):
@@ -19,9 +20,19 @@ for filename in os.listdir('./commands'):
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord.Activity(name=f"👀 {len(bot.guilds)} Servers.",
+                                                        type=discord.ActivityType.watching))
     print(f"機器人已上線 ID : {bot.user}")
+    MyTasks(bot)
     if os.getenv('CI_TEST'):
         os._exit(0)
+
+
+@bot.event
+async def on_guild_join(guild):
+    await bot.change_presence(activity=discord.Activity(name=f"👀 {len(bot.guilds)} Servers.",
+                                                        type=discord.ActivityType.watching))
+    print(f"加入伺服器 ID : {guild.id}")
 
 
 @bot.event

@@ -33,14 +33,3 @@ class KvData(KV):
     def __init__(self):
         super().__init__(os.getenv("KV_ACCOUNT"), os.getenv("KV_NAMESPACE_DATA"), os.getenv("KV_TOKEN"))
 
-
-class KvGuilds(KV):
-    def __init__(self):
-        super().__init__(os.getenv("KV_ACCOUNT"), os.getenv("KV_NAMESPACE_Guilds"), os.getenv("KV_TOKEN"))
-
-
-class KvPushData(KV):
-    def __init__(self):
-        super().__init__(os.getenv("KV_ACCOUNT"), os.getenv("KV_NAMESPACE_PUSH"), os.getenv("KV_TOKEN"))
-
-
