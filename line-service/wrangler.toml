@@ -1,0 +1,19 @@
+name="d4-notify-line-service"
+main="src/index.js"
+compatibility_date = "2023-06-30"
+logpush = true
+
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+LINE_NOTIFY_CLIENT_ID="tXER2MQIt1wfAZIOm3rZYV"
+LINE_NOTIFY_CLIENT_SECRET="yUySjPDdGuB353eXVf5YCa4WcKxwjgASv67CT4pOvTL"
+REDIRECT_URL="https://d4-notify.glacat.com"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "24ef6b5a73c5431fbf92d5337a81d52e"
+preview_id = '24ef6b5a73c5431fbf92d5337a81d52e'
+
+
